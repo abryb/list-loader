@@ -29,7 +29,7 @@ abstract class ListableRepository
      * @param int $limit limit of objects per page (0 = no limit)
      * @param int $page  find page
      *
-     * @return mixed result set
+     * @return array result set
      */
     abstract public function find(int $limit = 0, int $page = 0) : array;
 
@@ -96,6 +96,9 @@ abstract class ListableRepository
      */
     public function setSorters(array $sorters) : ListableRepository
     {
+        if ( isset($sorters['name'], $sorters['type'])) {
+            $this->orderBy($sorters['name'], $sorters['type']);
+        }
         foreach ($sorters as $k => $s) {
             if (isset($s['name'], $s['type'])) {
                 $this->orderBy($s['name'], $s['type']);
