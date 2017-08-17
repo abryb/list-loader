@@ -12,6 +12,7 @@
 namespace Staccato\Component\ListLoader\Repository\Doctrine;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Staccato\Component\ListLoader\Repository\ListableRepository as BaseListableRepository;
 

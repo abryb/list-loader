@@ -48,7 +48,7 @@ abstract class ListableRepository
      *
      * @return self
      */
-    public function filterBy(string $name,string $value) : ListableRepository
+    public function filterBy(string $name, $value) : ListableRepository
     {
         $this->filters[$name] = $value;
 
