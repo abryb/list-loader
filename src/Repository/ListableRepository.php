@@ -21,37 +21,34 @@ abstract class ListableRepository
     /**
      * @var array
      */
-    protected $sorter = array(
-        'name' => null,
-        'type' => 'asc',
-    );
+    protected $sorters = array();
 
     /**
      * Find matching objects and compose list.
      *
-     * @param number $limit limit of objects per page (0 = no limit)
-     * @param number $page  find page
+     * @param int $limit limit of objects per page (0 = no limit)
+     * @param int $page  find page
      *
      * @return mixed result set
      */
-    abstract public function find($limit = 0, $page = 0);
+    abstract public function find(int $limit = 0, int $page = 0) : array;
 
     /**
      * Count number of matching objects.
      *
      * @return int
      */
-    abstract public function count();
+    abstract public function count() : int;
 
     /**
      * Set new filter.
      *
-     * @param unknown $name
-     * @param unknown $value
+     * @param string $name
+     * @param mixed $value
      *
      * @return self
      */
-    public function filterBy($name, $value)
+    public function filterBy(string $name,string $value) : ListableRepository
     {
         $this->filters[$name] = $value;
 
@@ -65,7 +62,7 @@ abstract class ListableRepository
      *
      * @return self
      */
-    public function setFilters(array $filters)
+    public function setFilters(array $filters) : ListableRepository
     {
         foreach ($filters as $f => $v) {
             $this->filterBy($f, $v);
@@ -82,10 +79,28 @@ abstract class ListableRepository
      *
      * @return ListableRepository
      */
-    public function orderBy($name, $type)
+    public function orderBy(?string $name = null, ?string $type = 'ASC') : ListableRepository
     {
-        $this->sorter['name'] = $name;
-        $this->sorter['type'] = $type;
+        $this->sorters[] =
+            [
+                'name' => $name,
+                'type' => $type
+            ];
+
+        return $this;
+    }
+
+    /**
+     * @param array $sorters
+     * @return ListableRepository
+     */
+    public function setSorters(array $sorters) : ListableRepository
+    {
+        foreach ($sorters as $k => $s) {
+            if (isset($s['name'], $s['type'])) {
+                $this->orderBy($s['name'], $s['type']);
+            }
+        }
 
         return $this;
     }

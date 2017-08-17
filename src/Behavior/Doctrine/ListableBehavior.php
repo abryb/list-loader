@@ -67,13 +67,13 @@ trait ListableBehavior
      *
      * @return string
      */
-    protected function columnPrefix(QueryBuilder $qb, $columnName)
+    protected function columnPrefix(QueryBuilder $qb, $columnName) : string
     {
-        if (false === strstr($columnName, '.')) {
+        if (false === strpos($columnName, '.')) {
             $columnName = $qb->getRootAliases()[0].'.'.$columnName;
         }
 
-        return $columnName;
+        return (string) $columnName;
     }
 
     /**
@@ -101,7 +101,16 @@ trait ListableBehavior
         return $this;
     }
 
-    protected function like(QueryBuilder $qb, $columnName, $value, $or = false, $not = false)
+    /**
+     * @param QueryBuilder $qb
+     * @param string       $columnName
+     * @param mixed       $value
+     * @param bool         $or
+     * @param bool         $not
+     *
+     * @return $this
+     */
+    protected function like(QueryBuilder $qb, $columnName, $value, bool $or = false, bool $not = false)
     {
         $where = $or ? 'orWhere' : 'andWhere';
         $like = $not ? 'notLike' : 'like';
@@ -116,7 +125,16 @@ trait ListableBehavior
         return $this;
     }
 
-    protected function equal(QueryBuilder $qb, $columnName, $value, $or = false, $not = false)
+    /**
+     * @param QueryBuilder $qb
+     * @param string       $columnName
+     * @param string|array $value
+     * @param bool         $or
+     * @param bool         $not
+     *
+     * @return $this
+     */
+    protected function equal(QueryBuilder $qb, $columnName, $value, bool $or = false, bool $not = false)
     {
         $where = $or ? 'orWhere' : 'andWhere';
 
@@ -137,7 +155,16 @@ trait ListableBehavior
         return $this;
     }
 
-    protected function greaterThan(QueryBuilder $qb, $columnName, $value, $or = false, $equal = false)
+    /**
+     * @param QueryBuilder $qb
+     * @param string       $columnName
+     * @param mixed        $value
+     * @param bool         $or
+     * @param bool         $equal
+     *
+     * @return $this
+     */
+    protected function greaterThan(QueryBuilder $qb, $columnName, $value, bool $or = false, bool $equal = false)
     {
         $where = $or ? 'orWhere' : 'andWhere';
         $cmp = $equal ? 'gte' : 'gt';
@@ -152,7 +179,16 @@ trait ListableBehavior
         return $this;
     }
 
-    protected function lessThan(QueryBuilder $qb, $columnName, $value, $or = false, $equal = false)
+    /**
+     * @param QueryBuilder $qb
+     * @param string       $columnName
+     * @param mixed        $value
+     * @param bool         $or
+     * @param bool         $equal
+     *
+     * @return $this
+     */
+    protected function lessThan(QueryBuilder $qb, $columnName, $value, bool $or = false, bool $equal = false)
     {
         $where = $or ? 'orWhere' : 'andWhere';
         $cmp = $equal ? 'lte' : 'lt';
@@ -167,7 +203,14 @@ trait ListableBehavior
         return $this;
     }
 
-    protected function dateRange($qb, $columnName, $dateOrRange)
+    /**
+     * @param QueryBuilder $qb
+     * @param string       $columnName
+     * @param mixed        $dateOrRange
+     *
+     * @return $this
+     */
+    protected function dateRange(QueryBuilder $qb, $columnName, $dateOrRange)
     {
         if (is_array($dateOrRange)) {
             if (isset($dateOrRange['from']) && is_string($dateOrRange['from'])) {
@@ -211,6 +254,8 @@ trait ListableBehavior
                 $this->andLessThanEqual($qb, $columnName, $dateOrRange['to']->format('Y-m-d').' 23:59:59');
             }
         }
+
+        return $this;
     }
 
     /**
