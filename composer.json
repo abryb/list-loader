@@ -1,11 +1,15 @@
 {
-	"name" : "staccato/list-loader",
-	"description" : "Staccato list loader component",
+	"name" : "abryb/list-loader",
+	"description" : "Staccato list loader component with abryb development",
 	"type" : "library",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Krystian Karaś",
 			"email" : "dev@karashome.pl"
+		},
+		{
+			"name" : "Błażej Rybarkiewicz",
+			"email" : "andrzej.blazej.rybarkiewicz@gmail.com"
 		}
 	],
 	"require" : {
